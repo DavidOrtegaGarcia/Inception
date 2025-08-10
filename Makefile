@@ -2,8 +2,8 @@
 all: up
 
 up:
-	docker compose up -d #-d to run docker a background process
+	docker compose -f ./srcs/docker-compose.yml up -d --build #-d to run docker a background process
 
 down:
-	docker compose down
+	docker compose -f ./srcs/docker-compose.yml down
 
