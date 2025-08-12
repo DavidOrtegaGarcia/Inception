@@ -6,4 +6,10 @@ up:
 
 down:
 	docker compose -f ./srcs/docker-compose.yml down
-
+clean:
+	sudo rm -rf /home/daortega/data
+	docker stop $$(docker ps -qa)
+	docker rm $$(docker ps -qa)
+	docker rmi $$(docker images -qa)
+	#@docker network rm inception
+re: clean up

@@ -10,5 +10,7 @@ services:
     build: ./requirements/mariadb
     image: mariadb
     container_name: mariadb
+    volumes:
+      - /home/daortega/data/mysql:/var/lib/mysql
     env_file: .env
     restart: always
