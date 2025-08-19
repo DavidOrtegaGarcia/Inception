@@ -9,7 +9,7 @@ mkdir -p /run/mysqld
 chown -R mysql:mysql /run/mysqld
 chmod -R 775 /run/mysqld
 
-if [ ! -d "/var/lib/mysql/mysql" ]; then
+if [ ! -d "/var/lib/mysql/$NAME_DB" ]; then
     #Initialitzation the mariadb server on Bind Mount
     mariadb-install-db --user=mysql --datadir="/var/lib/mysql"
    

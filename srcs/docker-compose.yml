@@ -5,12 +5,51 @@ services:
     container_name: nginx 
     ports:
       - "443:443"
+    volumes:
+      - wordpress_vm:/var/www/html
+    networks:
+      - inception
+    depends_on:
+      - wordpress
     restart: always
   mariadb:
     build: ./requirements/mariadb
     image: mariadb
     container_name: mariadb
     volumes:
-      - /home/daortega/data/mysql:/var/lib/mysql
+      - mariadb_vm:/var/lib/mysql
+    networks:
+      - inception
     env_file: .env
     restart: always
+  wordpress:
+    build: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    volumes:
+      - wordpress_vm:/var/www/html
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+    env_file: .env
+    restart: always
+
+volumes:
+  mariadb_vm:
+    driver: local
+    driver_opts:
+      device: "/home/daortega/data/mysql"
+      o: bind
+      type: none
+  wordpress_vm:
+    driver: local
+    driver_opts:
+      device: "/home/daortega/data/wordpress"
+      o: bind
+      type: none
+
+networks:
+  inception:
+    name: inception
+    driver: bridge
