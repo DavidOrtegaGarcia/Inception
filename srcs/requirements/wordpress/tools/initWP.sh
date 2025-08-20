@@ -1,6 +1,5 @@
 #!/bin/bash
 
-sleep 15
 if [ ! -f wp-config.php ]; then
 	wp core download --allow-root
 	wp config create \

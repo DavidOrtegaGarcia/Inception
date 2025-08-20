@@ -13,4 +13,6 @@ RUN chmod +x /usr/local/bin/initWP.sh
 
 WORKDIR /var/www/html
 
+EXPOSE 9000
+
 ENTRYPOINT ["/usr/local/bin/initWP.sh"]

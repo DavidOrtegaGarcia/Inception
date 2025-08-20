@@ -20,6 +20,11 @@ services:
       - mariadb_vm:/var/lib/mysql
     networks:
       - inception
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-u", "root", "-p${ROOT_PASSWD_DB}" ]
+      interval: 7s
+      timeout: 5s
+      retries: 5
     env_file: .env
     restart: always
   wordpress:
@@ -31,7 +36,8 @@ services:
     networks:
       - inception
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     env_file: .env
     restart: always
 

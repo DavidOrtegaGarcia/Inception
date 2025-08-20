@@ -6,5 +6,7 @@ COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 COPY ./tools/initDB.sh /usr/local/bin/initDB.sh
 RUN chmod +x /usr/local/bin/initDB.sh
 
+EXPOSE 3306
+
 ENTRYPOINT ["/usr/local/bin/initDB.sh"]
 

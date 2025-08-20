@@ -1,18 +1,11 @@
 #!/bin/bash
 
-#Give permision to bind mount
-chown -R mysql:mysql /var/lib/mysql
-chmod -R 775 /var/lib/mysql
-
 #Make socket directory with the right permissions 
 mkdir -p /run/mysqld
 chown -R mysql:mysql /run/mysqld
 chmod -R 775 /run/mysqld
 
 if [ ! -d "/var/lib/mysql/$NAME_DB" ]; then
-    #Initialitzation the mariadb server on Bind Mount
-    mariadb-install-db --user=mysql --datadir="/var/lib/mysql"
-   
     #Run mariabd as daemon
     mysqld_safe --datadir="/var/lib/mysql" &
     sleep 10
