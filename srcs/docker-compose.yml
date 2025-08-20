@@ -10,7 +10,8 @@ services:
     networks:
       - inception
     depends_on:
-      - wordpress
+      wordpress:
+        condition: service_healthy
     restart: always
   mariadb:
     build: ./requirements/mariadb
@@ -21,9 +22,9 @@ services:
     networks:
       - inception
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-u", "root", "-p${ROOT_PASSWD_DB}" ]
-      interval: 7s
-      timeout: 5s
+      test: ["CMD", "sh", "-c", "ls /var/lib/mysql/${NAME_DB} && mysqladmin ping -u root -p${ROOT_PASSWD_DB}" ]
+      interval: 5s
+      timeout: 2s
       retries: 5
     env_file: .env
     restart: always
@@ -35,6 +36,11 @@ services:
       - wordpress_vm:/var/www/html
     networks:
       - inception
+    healthcheck:
+      test: ["CMD", "ls", "/var/run/php/php8.2-fpm.pid"]
+      interval: 5s
+      timeout: 1s
+      retries: 5
     depends_on:
       mariadb:
         condition: service_healthy
